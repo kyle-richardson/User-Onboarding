@@ -11,9 +11,50 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+body {
+  background-color: black;
+  color: white;
+  margin-top: 30px;
+}
+
+.main-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.main-form>* {
+  margin: 5px;
+}
+
+.account-select, .text-field {
+  width: 170px;
+  background-color: lightgray;
+  border: 2px solid white;
+  border-radius: 8px;
+  padding: 5px;
+  /* margin: 5px; */
+}
+
+.error-text {
+  color:lightcoral;
+}
+.error-border {
+  border-color: lightcoral;
+}
+
+.tos-error-border {
+  outline: 2px solid lightcoral;
+}
 .hide{
   display: none;
 }
 .show {
   display: block;
+}
+
+.errors p{
+  margin: 0;
+  padding: 0;
 }

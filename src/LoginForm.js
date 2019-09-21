@@ -6,6 +6,7 @@ import TOS from "./TOS"
 import axios from "axios"
 
 function LoginForm({ values, errors, touched, isSubmitting }) {
+
   const [userList, setUserList] = useState({
     name: 'kyle richardson',
     email: 'kyle.r@me.com',
@@ -13,23 +14,45 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
     account: 'gold'
   })
 
+  const checkForError = (type) => {
+    return touched[type] && errors[type]
+  }
+
   return (
     <div className="form-container">
-      <Form>
+      <Form className="main-form">
         <h1>Create Account</h1>
-        <div>
-          {touched.name && errors.name && <p>{errors.name}</p>}
-          <Field type="name" name="name" placeholder="Name" />
+        <div className="errors"> 
+          {checkForError('name') && <p className="error-text">{errors.name}</p>}
+          {checkForError('email') && <p className="error-text">{errors.email}</p>}
+          {checkForError('password') && <p className="error-text">{errors.password}</p>}
+          {checkForError('tos') && <p className="error-text">{errors.tos}</p>}
         </div>
         <div>
-          {touched.email && errors.email && <p>{errors.email}</p>}
-          <Field type="email" name="email" placeholder="Email" />
+          <Field 
+            className={`text-field ${checkForError('name') && 'error-border'}`} 
+            type="name" 
+            name="name" 
+            placeholder="Name" 
+          />
         </div>
         <div>
-          {touched.password && errors.password && <p>{errors.password}</p>}
-          <Field type="password" name="password" placeholder="Password" />
+          <Field 
+            className={`text-field ${checkForError('email') && 'error-border'}`} 
+            type="email" 
+            name="email" 
+            placeholder="Email" 
+          />
         </div>
-        <Field component="select" name="account">
+        <div>
+          <Field 
+            className={`text-field ${checkForError('password') && 'error-border'}`} 
+            type="password" 
+            name="password" 
+            placeholder="Password" 
+          />
+        </div>
+        <Field className="account-select" component="select" name="account">
           <option value="gold">Gold</option>
           <option value="silver">Silver</option>
           <option value="platinum">Platinum</option>
@@ -38,8 +61,13 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
           <TOS />
         </div>
         <label>
-          <Field type="checkbox" name="tos" checked={values.tos} />
-          Accept TOS
+          <Field 
+            type="checkbox" 
+            name="tos" 
+            className={`checkbox-field ${checkForError('tos') && 'tos-error-border'}`} 
+            checked={values.tos} 
+          />
+            Accept TOS
         </label>
         <button disabled={isSubmitting}>Submit!</button>
       </Form>
@@ -65,13 +93,15 @@ const FormikLoginForm = withFormik({
 
   validationSchema: Yup.object().shape({
     name: Yup.string()
-      .required(),
+      .required("Name is required"),
     email: Yup.string()
       .email("Email not valid")
       .required("Email is required"),
     password: Yup.string()
       .min(6, "Password must be 6 characters or longer")
-      .required()
+      .required("Password is required"),
+    tos: Yup.bool()
+      .oneOf([true], "Must agree to terms")
   }),
 
   handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
@@ -84,6 +114,7 @@ const FormikLoginForm = withFormik({
           console.log(response)
           resetForm();
           setSubmitting(false);
+          // setUserList([...userList, values])
         })
         .catch(err => {
           console.log(err); 
