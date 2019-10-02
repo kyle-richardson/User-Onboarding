@@ -11,8 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+html {
+  font-size: 62.5%;
+}
 
 body {
+  font-size: 1.5rem;
   background-color: black;
   color: white;
   margin-top: 30px;
@@ -31,10 +35,8 @@ body {
 .account-select, .text-field {
   width: 170px;
   background-color: lightgray;
-  border: 2px solid white;
-  border-radius: 8px;
   padding: 5px;
-  /* margin: 5px; */
+  border: 0;
 }
 
 .error-text {
@@ -57,4 +59,36 @@ body {
 .errors p{
   margin: 0;
   padding: 0;
+}
+
+.users-container {
+  text-align: center;
+}
+.back-button, .show-tos, .submit-button {
+  color: black;
+  text-decoration: none;
+  background: lightgray;
+  padding: 5px 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.back-button:hover, .show-tos:hover, .submit-button:hover {
+  background: rgb(187, 187, 187);
+}
+.back-button {
+  margin-top: 10px;
+}
+
+.tos {
+  width: 70%;
+  border: 2px solid white;
+  margin: 0 auto;
+  padding: 5px;
+  overflow: scroll;
+  height: 350px;
+}
+.tos-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

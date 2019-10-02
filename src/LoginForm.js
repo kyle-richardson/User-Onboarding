@@ -1,18 +1,10 @@
-import React, {useState} from "react";
+import React from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
-import Users from "./Users"
-import TOS from "./TOS"
 import axios from "axios"
+import {Link} from "react-router-dom"
 
 function LoginForm({ values, errors, touched, isSubmitting }) {
-
-  const [userList, setUserList] = useState({
-    name: 'kyle richardson',
-    email: 'kyle.r@me.com',
-    password: '123456',
-    account: 'gold'
-  })
 
   const checkForError = (type) => {
     return touched[type] && errors[type]
@@ -57,9 +49,9 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
           <option value="silver">Silver</option>
           <option value="platinum">Platinum</option>
         </Field>
-        <div className="hide">
-          <TOS />
-        </div>
+        <Link className="show-tos" to="/tos">
+          Show Terms
+        </Link>
         <label>
           <Field 
             type="checkbox" 
@@ -69,9 +61,14 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
           />
             Accept TOS
         </label>
-        <button disabled={isSubmitting}>Submit!</button>
+        <button 
+          className="submit-button" 
+          type="submit" 
+          disabled={isSubmitting}>
+            Submit
+        </button>
       </Form>
-      <Users userList={userList}/>
+      
     </div>
     
   );
@@ -80,6 +77,7 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
 
 
 const FormikLoginForm = withFormik({
+
   
   mapPropsToValues({ email, password, tos, account, name }) {
     return {
@@ -107,7 +105,9 @@ const FormikLoginForm = withFormik({
   handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
     if (values.email === "waffle@syrup.com") {
       setErrors({ email: "That email is already taken" });
-    } else {
+      setSubmitting(false);
+    } 
+    else {
       axios
         .post("https://reqres.in/api/users", values)
         .then(response => {
