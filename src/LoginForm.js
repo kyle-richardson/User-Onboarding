@@ -59,7 +59,7 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
             className={`checkbox-field ${checkForError('tos') && 'tos-error-border'}`} 
             checked={values.tos} 
           />
-            Accept TOS
+            Accept Terms
         </label>
         <button 
           className="submit-button" 
