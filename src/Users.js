@@ -4,7 +4,7 @@ const Users = (props) => {
     return (
         <div className="users-container">
             <h2>User List</h2>
-            <p>{props.userList.name}</p>
+            {props.users.map(user=><div key={user.id}>{user.name}</div>)}
         </div>
     )
 }

@@ -1,14 +1,22 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios"
 import {Link} from "react-router-dom"
+import Users from "./Users"
 
-function LoginForm({ values, errors, touched, isSubmitting }) {
+function LoginForm({status, values, errors, touched, isSubmitting }) {
 
   const checkForError = (type) => {
     return touched[type] && errors[type]
   }
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    if (status) {
+      setUsers([...users, status]);
+    }
+  }, [status, users]);
 
   return (
     <div className="form-container">
@@ -68,7 +76,9 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
             Submit
         </button>
       </Form>
-      
+      <Users 
+        users = {users}
+      />
     </div>
     
   );
@@ -102,7 +112,7 @@ const FormikLoginForm = withFormik({
       .oneOf([true], "Must agree to terms")
   }),
 
-  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+  handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
     if (values.email === "waffle@syrup.com") {
       setErrors({ email: "That email is already taken" });
       setSubmitting(false);
@@ -111,10 +121,9 @@ const FormikLoginForm = withFormik({
       axios
         .post("https://reqres.in/api/users", values)
         .then(response => {
-          console.log(response)
           resetForm();
           setSubmitting(false);
-          // setUserList([...userList, values])
+          setStatus(response.data)
         })
         .catch(err => {
           console.log(err); 
