@@ -16,7 +16,7 @@ function LoginForm({status, values, errors, touched, isSubmitting }) {
     if (status) {
       setUsers([...users, status]);
     }
-  }, [status, users]);
+  }, [status]);
 
   return (
     <div className="form-container">
