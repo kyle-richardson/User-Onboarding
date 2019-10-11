@@ -16,6 +16,7 @@ function LoginForm({status, values, errors, touched, isSubmitting }) {
     if (status) {
       setUsers([...users, status]);
     }
+    // eslint-disable-next-line
   }, [status]);
 
   return (

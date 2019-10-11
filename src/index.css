@@ -43,7 +43,7 @@ body {
   color:lightcoral;
 }
 .error-border {
-  border-color: lightcoral;
+  border: 2px solid lightcoral;
 }
 
 .tos-error-border {
